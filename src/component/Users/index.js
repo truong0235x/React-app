@@ -19,21 +19,28 @@ class Users extends React.Component {
   }
 
   editRow = (id, isEdit) => {
-    const user = this.state.students.find(user => user.id === id)
-    if (!user) {
-      return;
-    }
+    // const user = this.state.students.find(user => user.id === id)
+    // if (!user) {
+    //   return;
+    // }
 
+    // user.isEdit = isEdit
+
+    const index = this.state.students.findIndex(user => user.id === id)
+    const user = {...this.state.students[index]}
     user.isEdit = isEdit
 
+    const newStudent = this.state.students
+    newStudent[index] = user
+
     this.setState({
-      students : [...this.state.students]
+      students : [...newStudent]
     })
   }
 
 
   deleteTickRow = () => {
-    const newStudent = this.state.students.filter(item => item.checked === false)
+    const newStudent = this.state.students.filter(item => !item.checked)
 
     this.setState({
       students: [...newStudent]
@@ -73,13 +80,32 @@ class Users extends React.Component {
     })
   }
 
+  componentWillMount(){
+    console.log('----componentWillMout---start')
+    const addBtn = document.getElementById('add-btn')
+    console.log(addBtn)
+    console.log('----componentWillMout---end')
+  }
+
+  componentDidMount(){
+    console.log('----componentdidMout---strat')
+    const addBtn = document.getElementById('add-btn')
+    console.log(addBtn)
+    console.log('----componentdidMout---end')
+
+  }
+
   render(){
+    console.log('---render----start')
+    const addBtn = document.getElementById('add-btn')
+    console.log(addBtn)
+    console.log('---render----end')
     return (
       <>
         <div className="container">
           <div className="row">
             <div className="col d-flex justify-content-end">
-              <button className="btn btn-info m-2" onClick={this.addStudent}>Add</button>
+              <button className="btn btn-info m-2" id="add-btn" onClick={this.addStudent}>Add</button>
               <button className="btn btn-danger m-2" onClick={this.deleteTickRow}>Delete</button>
             </div>
           </div>

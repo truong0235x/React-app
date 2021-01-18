@@ -11,7 +11,7 @@ class User extends React.Component {
     user.checked = !user.checked
 
     this.setState({
-      ...this.state.edittingUser
+      edittingUser: {...this.state.edittingUser}
     })
   }
 
@@ -70,6 +70,8 @@ class User extends React.Component {
     user.gender = this.state.edittingUser.gender
     user.age = this.state.edittingUser.age
 
+    user.isEdit = false
+    this.props.editRow(user.id, user.isEdit)
   }
 
   get editingRow() {
@@ -79,7 +81,7 @@ class User extends React.Component {
     return(
       <tr>
         <td><input type="checkbox" onChange={this.checkedCheckbox} checked={user.checked ? 'checked' : ''} /></td>
-        <td>{userEditting.id}</td>
+        <td>{user.id}</td>
 
         <td>
           <input value={userEditting.fullName} onChange={this.changeName}/>
@@ -103,6 +105,24 @@ class User extends React.Component {
     )
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.setState({
+      edittingUser: {
+        ...this.props,
+        nextProps
+      }
+    })
+  }
+
+  // shouldComponentUpdate() {
+  //   return false
+  // }
+
+  componentWillUnmount() {
+    console.log('---unMount-st')
+    console.log(this.props.user)
+    console.log('---unMount-end')
+  }
 
   render() {
     const { user } = this.props
